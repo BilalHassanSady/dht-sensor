@@ -1,0 +1,38 @@
+#include <TroykaDHT.h>
+
+DHT dht(dhtpin , DHT11);
+void setup() {
+  Serial.begin(9600);
+  dht.begin();
+}
+
+void loop() {
+  dht.read();
+  switch(dht.getState()){
+        case DHT_OK: //if state is ok
+       Serial.print("Temperature = ");
+       Serial.print(dht.getTemperatureC()); //get 
+       Serial.println(" C \t");
+       //this code for get tempratucre in the onther form
+    //   Serial.print("Temperature = ");
+    //  Serial.print(dht.getTemperatureK());
+    //  Serial.println(" K \t");
+    //  Serial.print("Temperature = ");
+    //  Serial.print(dht.getTemperatureF());
+    //   Serial.println(" F \t");
+       Serial.print("Humidity = ");
+        Serial.print(dht.getHumidity());
+       Serial.println(" %");
+       break;
+       //this is the error of dht sensor
+      case DHT_ERROR_CHECKSUM:
+       Serial.println("Checksum error");
+       break;
+    case DHT_ERROR_TIMEOUT:
+      Serial.println("Time out error");
+      break;
+    case DHT_ERROR_NO_REPLY:
+      Serial.println("Sensor not connected");
+      break;
+  }
+ }
